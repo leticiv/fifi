@@ -1,0 +1,25 @@
+intigriti:
+  pat: ""                     # or INTIGRITI_PAT env
+
+discord:
+  webhook_url: ""             # or DISCORD_WEBHOOK_URL env
+
+monitoring:
+  interval: 300
+  follow_only: false
+  activity_types:
+    status_change: true
+    domains_update: false
+    rules_update: false
+
+filters:
+  programs: []
+  statuses: [3, 4, 5]
+
+mentions: {}
+
+logging:
+  level: INFO
+  file: logs/monitor.log
+  max_bytes: 10485760
+  backup_count: 3
