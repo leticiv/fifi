@@ -45,15 +45,25 @@ def load_config(path):
     if os.path.exists(path):
         with open(path) as f:
             cfg = yaml.safe_load(f) or {}
-    else:
-        cfg = {}
 
     cfg.setdefault("intigriti", {})
     cfg.setdefault("discord", {})
-    cfg.setdefault("monitoring", {})
-    cfg.setdefault("filters", {})
     cfg.setdefault("mentions", {})
-    cfg.setdefault("logging", {})
+    cfg.setdefault("filters", {"programs": [], "statuses": [3, 4, 5]})
+
+    monitoring = cfg.setdefault("monitoring", {})
+    monitoring.setdefault("interval", 300)
+    monitoring.setdefault("follow_only", False)
+    activity_types = monitoring.setdefault("activity_types", {})
+    activity_types.setdefault("status_change", True)
+    activity_types.setdefault("domains_update", False)
+    activity_types.setdefault("rules_update", False)
+
+    logging_cfg = cfg.setdefault("logging", {})
+    logging_cfg.setdefault("level", "INFO")
+    logging_cfg.setdefault("file", "logs/monitor.log")
+    logging_cfg.setdefault("max_bytes", 10485760)
+    logging_cfg.setdefault("backup_count", 3)
 
     cfg["intigriti"]["pat"] = cfg["intigriti"].get("pat") or os.environ.get("INTIGRITI_PAT", "")
     cfg["discord"]["webhook_url"] = cfg["discord"].get("webhook_url") or os.environ.get("DISCORD_WEBHOOK_URL", "")
