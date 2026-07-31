@@ -41,13 +41,18 @@ def setup_logging(cfg):
 
 
 def load_config(path):
-    with open(path) as f:
-        cfg = yaml.safe_load(f)
+    cfg = {}
+    if os.path.exists(path):
+        with open(path) as f:
+            cfg = yaml.safe_load(f) or {}
+    else:
+        cfg = {}
 
     cfg.setdefault("intigriti", {})
     cfg.setdefault("discord", {})
     cfg.setdefault("monitoring", {})
     cfg.setdefault("filters", {})
+    cfg.setdefault("mentions", {})
     cfg.setdefault("logging", {})
 
     cfg["intigriti"]["pat"] = cfg["intigriti"].get("pat") or os.environ.get("INTIGRITI_PAT", "")
